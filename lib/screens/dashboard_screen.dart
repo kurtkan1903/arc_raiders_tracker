@@ -5,6 +5,7 @@ import 'package:share_plus/share_plus.dart';
 import 'blueprint_screen.dart';
 import 'bench_screen.dart';
 import 'mission_screen.dart';
+import 'resource_screen.dart';
 import 'settings_screen.dart';
 import '../data/bench_data.dart';
 import '../data/mission_data.dart';
@@ -100,6 +101,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
+                  _hudMenuBtn(context, "İTEMLER", "MALZEME VE KAYNAK ENVANTERİ", Icons.category_outlined, Colors.purpleAccent, ResourceScreen(userName: widget.userName)),
                   _hudMenuBtn(context, "BLUEPRINT DEPOSU", "TÜM ŞEMALAR VE MODÜLLER", Icons.inventory_2_outlined, Colors.blueAccent, BlueprintScreen(userName: widget.userName)),
                   _hudMenuBtn(context, "ATÖLYE SİSTEMLERİ", "GELİŞTİRME VE ÜRETİM", Icons.handyman_outlined, Colors.orangeAccent, BenchScreen(userName: widget.userName), progress: _benchProgressPercent),
                   _hudMenuBtn(context, "RAIDERS PROJELERİ", "SEFER VE GÖREV TAKİBİ", Icons.map_outlined, Colors.greenAccent, MissionScreen(userName: widget.userName), progress: _missionProgressPercent),

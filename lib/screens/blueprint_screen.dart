@@ -19,7 +19,7 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
   String searchQuery = "";
   List<GameItem> _sortedBlueprintItems = [];
   Timer? _timer;
-  bool _showOnlyOwned = false; // Sahiplik filtresi için yeni değişken
+  bool _showOnlyOwned = false;
 
   String get _storageKey => 'blueprint_inventory_${widget.userName}';
 
@@ -118,7 +118,6 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     
-    // Filtreleme mantığı güncellendi
     final filteredBlueprints = _sortedBlueprintItems.where((item) {
       final matchesSearch = item.nameTr.toLowerCase().contains(searchQuery.toLowerCase());
       final isOwned = (bpStocks[item.id] ?? 0) > 0;
@@ -134,7 +133,6 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
         title: const Text("BLUEPRINT DEPOSU"),
         backgroundColor: Colors.transparent,
         actions: [
-          // Sahiplik Filtresi Butonu
           IconButton(
             icon: Icon(
               _showOnlyOwned ? Icons.filter_alt : Icons.filter_alt_outlined,
@@ -178,13 +176,15 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
             itemBuilder: (context, index) {
               final item = filteredBlueprints[index];
               final count = bpStocks[item.id] ?? 0;
-              return _buildBPItem(item, count, isDark);
+              // Liste içindeki genel indeksi bulmak için (sıralı listeden)
+              final displayIndex = (index + 1).toString().padLeft(2, '0');
+              return _buildBPItem(item, count, isDark, displayIndex);
             },
           ),
     );
   }
 
-  Widget _buildBPItem(GameItem item, int count, bool isDark) {
+  Widget _buildBPItem(GameItem item, int count, bool isDark, String indexStr) {
     final bool hasOwned = count > 0;
 
     return Container(
@@ -194,20 +194,24 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: hasOwned 
-              ? Colors.orangeAccent.withOpacity(0.6) // Sahip olunanlar turuncu
+              ? Colors.orangeAccent.withOpacity(0.6)
               : (isDark ? Colors.white10 : Colors.grey[300]!),
           width: hasOwned ? 2 : 1,
         ),
-        boxShadow: hasOwned && isDark 
-            ? [BoxShadow(color: Colors.orangeAccent.withOpacity(0.05), blurRadius: 10)] 
-            : (!isDark ? [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5, offset: const Offset(0, 2))] : null),
       ),
       child: ListTile(
-        leading: Stack(
-          alignment: Alignment.center,
+        leading: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset("assets/Bp_background.webp", width: 45, height: 45, fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(width: 45, height: 45, color: isDark ? Colors.white10 : Colors.grey[200])),
-            Image.asset("assets/blueprints/${item.fileName}", width: 30, height: 30, errorBuilder: (c, e, s) => Icon(Icons.description, color: hasOwned ? Colors.orangeAccent : Colors.blueAccent)),
+            Text(indexStr, style: const TextStyle(color: Colors.white24, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+            const SizedBox(width: 10),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Image.asset("assets/Bp_background.webp", width: 45, height: 45, fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(width: 45, height: 45, color: isDark ? Colors.white10 : Colors.grey[200])),
+                Image.asset("assets/blueprints/${item.fileName}", width: 30, height: 30, errorBuilder: (c, e, s) => Icon(Icons.description, color: hasOwned ? Colors.orangeAccent : Colors.blueAccent)),
+              ],
+            ),
           ],
         ),
         title: Text(

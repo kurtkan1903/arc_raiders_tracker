@@ -1,17 +1,31 @@
 import 'dart:convert';
 
 // --- ORTAK MODELLER ---
+enum ItemRarity { common, uncommon, rare, epic, legendary }
+
 class GameItem {
   final String id;
   final String nameTr;
   final String fileName;
   final String category;
+  final ItemRarity rarity;
+  final int value;
+  final String description;
+  final String? location;
+  final List<RequiredMaterial>? craftingRecipe;
+  final List<RequiredMaterial>? recyclingYield;
 
   GameItem({
     required this.id,
     required this.nameTr,
     required this.fileName,
     this.category = "Genel",
+    this.rarity = ItemRarity.common,
+    this.value = 0,
+    this.description = "",
+    this.location,
+    this.craftingRecipe,
+    this.recyclingYield,
   });
 }
 
