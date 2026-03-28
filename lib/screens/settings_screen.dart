@@ -153,14 +153,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Bu uygulama resmi bir Embark Studios ürünü değildir. ARC Raiders markası, logoları ve tüm oyun içi varlıklar Embark Studios'un tescilli mülkiyetindedir. Bu proje tamamen hayran yapımıdır ve ticari amaç gütmez.\n\n"
-                  "This is an unofficial fan app. ARC Raiders and all related assets are trademarks of Embark Studios. This project is not affiliated with or endorsed by Embark Studios.",
+                  "Bu uygulama resmi bir Embark Studios ürünü değildir. ARC Raiders markası, logoları ve tüm oyun içi varlıklar Embark Studios'un tescilli mülkiyetindedir. This project is not affiliated with or endorsed by Embark Studios.",
                   style: TextStyle(color: isDark ? Colors.white30 : Colors.black38, fontSize: 11),
                 ),
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
-                    "Versiyon 1.0.1",
+                    "Versiyon 1.0.2",
                     style: TextStyle(color: isDark ? Colors.white24 : Colors.black26, fontSize: 12),
                   ),
                 ),

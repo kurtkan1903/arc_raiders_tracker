@@ -7,8 +7,8 @@ class UpdaterService {
   static const String _repoUrl = "https://raw.githubusercontent.com/kurtkan1903/arc_raiders_tracker/main/version.json";
   static const String _downloadUrl = "https://github.com/kurtkan1903/arc_raiders_tracker/releases/latest";
 
-  // MEVCUT VERSİYON (1.01)
-  static const double currentVersion = 1.01;
+  // MEVCUT VERSİYON (1.02)
+  static const double currentVersion = 1.02;
 
   static Future<void> checkForUpdates(BuildContext context) async {
     try {
