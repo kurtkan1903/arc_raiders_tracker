@@ -38,7 +38,9 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
 
   void _sortBlueprintItems() {
     const turkishAlphabet = "abcçdefgğhıijklmnoöprsştuüvyz";
+    // Filtreyi tamamen kaldırdık çünkü kütüphanede zaten sadece Mk III'ler var.
     _sortedBlueprintItems = List.from(ItemLibrary.blueprintItems);
+
     _sortedBlueprintItems.sort((a, b) {
       String nameA = a.nameTr.toLowerCase();
       String nameB = b.nameTr.toLowerCase();
@@ -121,11 +123,7 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
     final filteredBlueprints = _sortedBlueprintItems.where((item) {
       final matchesSearch = item.nameTr.toLowerCase().contains(searchQuery.toLowerCase());
       final isOwned = (bpStocks[item.id] ?? 0) > 0;
-      
-      if (_showOnlyOwned) {
-        return matchesSearch && isOwned;
-      }
-      return matchesSearch;
+      return _showOnlyOwned ? (matchesSearch && isOwned) : matchesSearch;
     }).toList();
 
     return Scaffold(
@@ -134,16 +132,11 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
-            icon: Icon(
-              _showOnlyOwned ? Icons.filter_alt : Icons.filter_alt_outlined,
-              color: _showOnlyOwned ? Colors.orangeAccent : Colors.blueAccent,
-            ),
-            tooltip: _showOnlyOwned ? "Tümünü Göster" : "Sadece Sahip Olduklarımı Göster",
+            icon: Icon(_showOnlyOwned ? Icons.filter_alt : Icons.filter_alt_outlined, color: Colors.blueAccent),
             onPressed: () => setState(() => _showOnlyOwned = !_showOnlyOwned),
           ),
           IconButton(
             icon: const Icon(Icons.share, color: Colors.blueAccent),
-            tooltip: "Listeyi Paylaş",
             onPressed: _shareBlueprints,
           ),
         ],
@@ -154,7 +147,7 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
             child: TextField(
               onChanged: (val) => setState(() => searchQuery = val),
               decoration: InputDecoration(
-                hintText: "İsme göre ara...",
+                hintText: "İsimle ara...",
                 prefixIcon: const Icon(Icons.search, color: Colors.blueAccent),
                 filled: true,
                 fillColor: isDark ? const Color(0xFF1A1A1A) : Colors.grey[200],
@@ -176,7 +169,6 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
             itemBuilder: (context, index) {
               final item = filteredBlueprints[index];
               final count = bpStocks[item.id] ?? 0;
-              // Liste içindeki genel indeksi bulmak için (sıralı listeden)
               final displayIndex = (index + 1).toString().padLeft(2, '0');
               return _buildBPItem(item, count, isDark, displayIndex);
             },
@@ -193,9 +185,7 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
         color: isDark ? const Color(0xFF1A1A1A) : Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: hasOwned 
-              ? Colors.orangeAccent.withOpacity(0.6)
-              : (isDark ? Colors.white10 : Colors.grey[300]!),
+          color: hasOwned ? Colors.orangeAccent.withOpacity(0.6) : (isDark ? Colors.white10 : Colors.grey[300]!),
           width: hasOwned ? 2 : 1,
         ),
       ),
@@ -203,46 +193,37 @@ class _BlueprintScreenState extends State<BlueprintScreen> {
         leading: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(indexStr, style: const TextStyle(color: Colors.white24, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
-            const SizedBox(width: 10),
+            Text(indexStr, style: const TextStyle(color: Colors.white12, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+            const SizedBox(width: 12),
             Stack(
               alignment: Alignment.center,
               children: [
-                Image.asset("assets/Bp_background.webp", width: 45, height: 45, fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(width: 45, height: 45, color: isDark ? Colors.white10 : Colors.grey[200])),
-                Image.asset("assets/blueprints/${item.fileName}", width: 30, height: 30, errorBuilder: (c, e, s) => Icon(Icons.description, color: hasOwned ? Colors.orangeAccent : Colors.blueAccent)),
+                Image.asset("assets/Bp_background.webp", width: 45, height: 45, errorBuilder: (c, e, s) => Container(width: 45, height: 45, color: Colors.white10)),
+                Image.asset("assets/blueprints/${item.fileName}", width: 30, height: 30, errorBuilder: (c, e, s) => const Icon(Icons.description, color: Colors.blueAccent)),
               ],
             ),
           ],
         ),
-        title: Text(
-          item.nameTr, 
-          style: TextStyle(
-            fontSize: 14, 
-            color: isDark ? Colors.white : Colors.black87,
-            fontWeight: hasOwned ? FontWeight.bold : FontWeight.normal,
-          )
-        ),
+        title: Text(item.nameTr.toUpperCase(), style: TextStyle(fontSize: 13, color: isDark ? Colors.white : Colors.black87, fontWeight: hasOwned ? FontWeight.bold : FontWeight.normal)),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildCountButton(Icons.remove, onTap: () => _changeStock(item.id, -1), onLongPressStart: (details) => _startTimer(item.id, -1), onLongPressEnd: (details) => _stopTimer()),
-            SizedBox(width: 30, child: Center(child: Text(count.toString(), style: TextStyle(color: isDark ? Colors.white : Colors.black)))),
-            _buildCountButton(Icons.add, onTap: () => _changeStock(item.id, 1), onLongPressStart: (details) => _startTimer(item.id, 1), onLongPressEnd: (details) => _stopTimer()),
+            _countBtn(Icons.remove, () => _changeStock(item.id, -1), (d) => _startTimer(item.id, -1), (d) => _stopTimer()),
+            SizedBox(width: 30, child: Center(child: Text("$count", style: const TextStyle(color: Colors.white, fontSize: 14)))),
+            _countBtn(Icons.add, () => _changeStock(item.id, 1), (d) => _startTimer(item.id, 1), (d) => _stopTimer()),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCountButton(IconData icon, {required VoidCallback onTap, void Function(LongPressStartDetails)? onLongPressStart, void Function(LongPressEndDetails)? onLongPressEnd}) {
+  Widget _countBtn(IconData i, VoidCallback t, void Function(LongPressStartDetails)? s, void Function(LongPressEndDetails)? e) {
     return GestureDetector(
-      onTap: onTap,
-      onLongPressStart: onLongPressStart,
-      onLongPressEnd: onLongPressEnd,
+      onTap: t, onLongPressStart: s, onLongPressEnd: e,
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(color: Colors.blueAccent.withOpacity(0.1), borderRadius: BorderRadius.circular(5)),
-        child: Icon(icon, color: Colors.blueAccent, size: 18),
+        child: Icon(i, color: Colors.blueAccent, size: 16),
       ),
     );
   }

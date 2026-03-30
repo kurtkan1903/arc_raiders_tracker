@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-// --- ORTAK MODELLER ---
 enum ItemRarity { common, uncommon, rare, epic, legendary }
 
 class GameItem {
@@ -9,11 +8,12 @@ class GameItem {
   final String fileName;
   final String category;
   final ItemRarity rarity;
-  final int value;
   final String description;
   final String? location;
   final List<RequiredMaterial>? craftingRecipe;
   final List<RequiredMaterial>? recyclingYield;
+  final int stackSize;
+  final String? usageInfo;
 
   GameItem({
     required this.id,
@@ -21,15 +21,15 @@ class GameItem {
     required this.fileName,
     this.category = "Genel",
     this.rarity = ItemRarity.common,
-    this.value = 0,
     this.description = "",
     this.location,
     this.craftingRecipe,
     this.recyclingYield,
+    this.stackSize = 1,
+    this.usageInfo,
   });
 }
 
-// --- TEZGAH MODELLERİ ---
 class RequiredMaterial {
   final String itemId; 
   final int quantity;
@@ -45,14 +45,13 @@ class BenchLevel {
 }
 
 class Bench {
-  final String id; // Görseller ve veri takibi için sabit ID
-  final String name; // Ekranda görünecek isim (Türkçe)
+  final String id; 
+  final String name; 
   final List<BenchLevel> levels;
 
   Bench({required this.id, required this.name, required this.levels});
 }
 
-// --- GÖREV MODELLERİ ---
 enum RequirementType { item, coin }
 
 class MissionRequirement {
@@ -93,7 +92,6 @@ class Mission {
   });
 }
 
-// --- KULLANICI MODELİ ---
 class UserInventory {
   final String userName;
   Map<String, int> stocks;
