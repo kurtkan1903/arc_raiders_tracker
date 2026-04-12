@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/splash_screen.dart';
+import 'data/item_repository.dart';
 
 // Tema kontrolü için global bir bildirimci
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.dark);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Item veritabanını yükle
+  await ItemRepository.initialize();
   
   // Kayıtlı tema tercihini yükle
   final prefs = await SharedPreferences.getInstance();

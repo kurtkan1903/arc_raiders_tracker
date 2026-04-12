@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dashboard_screen.dart';
 import 'patch_notes_screen.dart';
@@ -64,64 +66,101 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0A),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              const Icon(Icons.security, size: 70, color: Colors.orangeAccent),
-              const SizedBox(height: 20),
-              const Text("KİMLİK DOĞRULAMA",
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 4)),
-              const SizedBox(height: 10),
-              const Text("Devam etmek için bir karakter seçin", style: TextStyle(color: Colors.grey, fontSize: 13)),
-              const SizedBox(height: 40),
-
-              _speranzaNewsButton(),
-
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text("KAYITLI RAIDERS", style: TextStyle(color: Colors.white24, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 2)),
-                  const Expanded(child: Divider(indent: 10, color: Colors.white10)),
-                ],
-              ),
-              const SizedBox(height: 15),
-
-              Expanded(
-                child: _users.isEmpty
-                    ? const Center(child: Text("Henüz karakter oluşturulmadı", style: TextStyle(color: Colors.white54, fontSize: 13)))
-                    : ListView.builder(
-                        itemCount: _users.length,
-                        itemBuilder: (context, index) => _userCard(_users[index]),
-                      ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: _showAddUserDialog,
-                      icon: const Icon(Icons.add_reaction_outlined),
-                      label: const Text("YENİ KARAKTER OLUŞTUR"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orangeAccent,
-                        foregroundColor: Colors.black,
-                        minimumSize: const Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        elevation: 0,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("Speranza seni bekliyor, Raider.", style: TextStyle(color: Colors.white10, fontSize: 10, fontStyle: FontStyle.italic)),
-                  ],
-                ),
-              ),
-            ],
+      backgroundColor: const Color(0xFF030303),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment.topRight,
+            radius: 1.5,
+            colors: [Colors.purpleAccent.withOpacity(0.05), Colors.transparent],
           ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                const SizedBox(height: 60),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.purpleAccent.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                    boxShadow: [BoxShadow(color: Colors.purpleAccent.withOpacity(0.2), blurRadius: 40, spreadRadius: 10)],
+                  ),
+                  child: const Icon(Icons.security_outlined, size: 50, color: Colors.purpleAccent),
+                ),
+                const SizedBox(height: 30),
+                Text("KİMLİK DOĞRULAMA",
+                    style: GoogleFonts.inter(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900, letterSpacing: 5)),
+                const SizedBox(height: 8),
+                Text("SİSTEME GİRİŞ YAPMAK İÇİN BİR KARAKTER SEÇİN", 
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(color: Colors.white10, fontSize: 8, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                const SizedBox(height: 50),
+
+                _speranzaNewsButton(),
+
+                const SizedBox(height: 30),
+                _sectionHeader("KAYITLI RADIERS"),
+                const SizedBox(height: 20),
+
+                Expanded(
+                  child: _users.isEmpty
+                      ? Center(child: Text("YENİ BİR RAIDERA İHTİYAÇ VAR", style: GoogleFonts.inter(color: Colors.white10, fontSize: 10, fontWeight: FontWeight.bold)))
+                      : ListView.builder(
+                          itemCount: _users.length,
+                          itemBuilder: (context, index) => _userCard(_users[index]),
+                        ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  child: Column(
+                    children: [
+                      _actionBtn("YENİ KARAKTER TESPİT ET", Icons.add_circle_outline, Colors.purpleAccent, _showAddUserDialog),
+                      const SizedBox(height: 20),
+                      Text("SPERANZA SENİ BEKLİYOR, RAIDER.", style: GoogleFonts.inter(color: Colors.white12, fontSize: 9, letterSpacing: 2)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionHeader(String title) {
+    return Row(
+      children: [
+        Text(title, style: GoogleFonts.inter(color: Colors.white24, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 3)),
+        const SizedBox(width: 15),
+        const Expanded(child: Divider(color: Colors.white10, height: 1)),
+      ],
+    );
+  }
+
+  Widget _actionBtn(String title, IconData icon, Color color, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        height: 56,
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: color.withOpacity(0.1)),
+          boxShadow: [BoxShadow(color: color.withOpacity(0.05), blurRadius: 10)],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 20),
+            const SizedBox(width: 12),
+            Text(title, style: GoogleFonts.inter(color: color, fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+          ],
         ),
       ),
     );
@@ -132,42 +171,42 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const PatchNotesScreen()));
       },
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blueAccent.withOpacity(0.15), Colors.transparent],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.blueAccent.withOpacity(0.3)),
+          color: Colors.blueAccent.withOpacity(0.02),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.blueAccent.withOpacity(0.1)),
         ),
-        child: Row(
-          children: [
-            Stack(
-              alignment: Alignment.center,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Row(
               children: [
-                Icon(Icons.radar, color: Colors.blueAccent.withOpacity(0.5), size: 40),
-                const Icon(Icons.rss_feed, color: Colors.blueAccent, size: 20),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(color: Colors.blueAccent.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                  child: const Icon(Icons.radar, color: Colors.blueAccent, size: 24),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("SPERANZA MERKEZİ", 
+                        style: GoogleFonts.inter(color: Colors.blueAccent, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1)),
+                      const SizedBox(height: 4),
+                      Text("Bölgelerden gelen son raporlar", 
+                        style: GoogleFonts.inter(color: Colors.white24, fontSize: 10, fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: Colors.white10, size: 16),
               ],
             ),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("SPERANZA'DA NELER OLUYOR?", 
-                    style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1)),
-                  const SizedBox(height: 4),
-                  Text("Bölge raporlarını ve güncellemeleri anlık takip et.", 
-                    style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 11)),
-                ],
-              ),
-            ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.blueAccent, size: 14),
-          ],
+          ),
         ),
       ),
     );
@@ -175,26 +214,31 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
 
   Widget _userCard(String name) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: const Color(0xFF161616),
-        borderRadius: BorderRadius.circular(15),
+        color: Colors.white.withOpacity(0.02),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.only(left: 20, right: 10),
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(color: Colors.orangeAccent.withOpacity(0.1), shape: BoxShape.circle),
-          child: const Icon(Icons.person, color: Colors.orangeAccent, size: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            leading: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(color: Colors.purpleAccent.withOpacity(0.1), shape: BoxShape.circle),
+              child: const Icon(Icons.person_outline, color: Colors.purpleAccent, size: 20),
+            ),
+            title: Text(name.toUpperCase(), style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1.5)),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete_outline, color: Colors.white10, size: 20),
+              onPressed: () => _showDeleteConfirmationDialog(name),
+            ),
+            onTap: () => _selectUserAndNavigate(name),
+          ),
         ),
-        title: Text(name.toUpperCase(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14, letterSpacing: 1)),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete_outline_rounded, color: Colors.white24, size: 20),
-          tooltip: "Karakteri Sil",
-          onPressed: () => _showDeleteConfirmationDialog(name),
-        ),
-        onTap: () => _selectUserAndNavigate(name),
       ),
     );
   }
@@ -203,34 +247,37 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
     final controller = TextEditingController();
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1E),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: const Text("YENİ RAIDER KAYDI", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-        content: TextField(
-          controller: controller,
-          maxLength: 20,
-          autofocus: true,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            hintText: "Raider İsmi...",
-            counterStyle: TextStyle(color: Colors.grey),
-            hintStyle: TextStyle(color: Colors.white24),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.orangeAccent)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.orange)),
+      builder: (context) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: AlertDialog(
+          backgroundColor: const Color(0xFF121212),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: const BorderSide(color: Colors.white10)),
+          title: Text("YENİ RAIDERA KAYDI", style: GoogleFonts.inter(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
+          content: TextField(
+            controller: controller,
+            maxLength: 20,
+            autofocus: true,
+            style: GoogleFonts.inter(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: "RAIDER İSMİ...",
+              hintStyle: GoogleFonts.inter(color: Colors.white10, fontSize: 10),
+              counterStyle: GoogleFonts.inter(color: Colors.white10),
+              enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.purpleAccent)),
+              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.purpleAccent, width: 2)),
+            ),
           ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context), child: Text("İPTAL", style: GoogleFonts.inter(color: Colors.white24, fontSize: 10))),
+            TextButton(
+                onPressed: () {
+                  if (controller.text.isNotEmpty) {
+                    _addNewUser(controller.text);
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text("DOSYALA", style: GoogleFonts.inter(color: Colors.purpleAccent, fontSize: 10, fontWeight: FontWeight.bold))),
+          ],
         ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text("İPTAL", style: TextStyle(color: Colors.grey))),
-          TextButton(
-              onPressed: () {
-                if (controller.text.isNotEmpty) {
-                  _addNewUser(controller.text);
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text("KAYDET", style: TextStyle(color: Colors.orangeAccent))),
-        ],
       ),
     );
   }
@@ -238,27 +285,30 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
   void _showDeleteConfirmationDialog(String name) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1E),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: const Text("KAYIT SİLME", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-        content: Text(
-          "'$name' verileri kalıcı olarak imha edilecek. Onaylıyor musun?",
-          style: const TextStyle(color: Colors.white70),
+      builder: (context) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: AlertDialog(
+          backgroundColor: const Color(0xFF121212),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: const BorderSide(color: Colors.white10)),
+          title: Text("KAYIT İMHASI", style: GoogleFonts.inter(color: Colors.redAccent, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
+          content: Text(
+            "'$name' VERİLERİ KALICI OLARAK İMHA EDİLECEK. ONAYLIYOR MUSUN?",
+            style: GoogleFonts.inter(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w500),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("İPTAL", style: GoogleFonts.inter(color: Colors.white24, fontSize: 10)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _deleteUser(name);
+              },
+              child: Text("İMHA ET", style: GoogleFonts.inter(color: Colors.redAccent, fontSize: 10, fontWeight: FontWeight.bold)),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("İPTAL", style: TextStyle(color: Colors.grey)),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _deleteUser(name);
-            },
-            child: const Text("SİL", style: TextStyle(color: Colors.redAccent)),
-          ),
-        ],
       ),
     );
   }

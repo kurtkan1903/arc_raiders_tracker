@@ -5,7 +5,8 @@ enum ItemRarity { common, uncommon, rare, epic, legendary }
 class GameItem {
   final String id;
   final String nameTr;
-  final String fileName;
+  final String nameEn;
+  final String? imageUrl;
   final String category;
   final ItemRarity rarity;
   final String description;
@@ -14,11 +15,14 @@ class GameItem {
   final List<RequiredMaterial>? recyclingYield;
   final int stackSize;
   final String? usageInfo;
+  final double weight;
+  final int sellPrice;
 
   GameItem({
     required this.id,
     required this.nameTr,
-    required this.fileName,
+    this.nameEn = "",
+    this.imageUrl,
     this.category = "Genel",
     this.rarity = ItemRarity.common,
     this.description = "",
@@ -27,7 +31,11 @@ class GameItem {
     this.recyclingYield,
     this.stackSize = 1,
     this.usageInfo,
+    this.weight = 0.0,
+    this.sellPrice = 0,
   });
+
+  String get displayName => (nameTr.isNotEmpty) ? nameTr : nameEn;
 }
 
 class RequiredMaterial {

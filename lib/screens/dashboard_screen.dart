@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
+import 'resource_screen.dart';
 import 'blueprint_screen.dart';
 import 'bench_screen.dart';
 import 'mission_screen.dart';
 import 'settings_screen.dart';
 import '../data/bench_data.dart';
 import '../data/mission_data.dart';
-import '../data/item_library.dart';
+import '../data/item_repository.dart';
 import '../models/game_models.dart';
 import '../services/updater_service.dart';
 
@@ -71,20 +74,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
+      backgroundColor: const Color(0xFF030303),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Column(
           children: [
-            Text("OPERASYON MERKEZİ", style: TextStyle(letterSpacing: 3, fontSize: 12, color: Colors.white.withOpacity(0.5))),
-            Text(widget.userName.toUpperCase(), style: const TextStyle(letterSpacing: 1, fontSize: 16, fontWeight: FontWeight.bold, color: Colors.orangeAccent)),
+            Text("OPERASYON MERKEZİ", style: GoogleFonts.inter(letterSpacing: 4, fontSize: 10, color: Colors.white24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 4),
+            Text(widget.userName.toUpperCase(), style: GoogleFonts.inter(letterSpacing: 2, fontSize: 18, fontWeight: FontWeight.w900, color: Colors.purpleAccent)),
           ],
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Icons.settings_outlined, color: Colors.white24),
             onPressed: () async {
               await Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen(userName: widget.userName)));
               _calculateOverallProgress();
@@ -97,17 +102,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _speranzaBroadcastTicker(),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
-                  _hudMenuBtn(context, "BLUEPRINT DEPOSU", "TÜM ŞEMALAR VE MODÜLLER", Icons.inventory_2_outlined, Colors.blueAccent, BlueprintScreen(userName: widget.userName)),
-                  _hudMenuBtn(context, "ATÖLYE SİSTEMLERİ", "GELİŞTİRME VE ÜRETİM", Icons.handyman_outlined, Colors.orangeAccent, BenchScreen(userName: widget.userName), progress: _benchProgressPercent),
-                  _hudMenuBtn(context, "RAIDERS PROJELERİ", "SEFER VE GÖREV TAKİBİ", Icons.map_outlined, Colors.greenAccent, MissionScreen(userName: widget.userName), progress: _missionProgressPercent),
+                  _buildProgressGrid(),
+                  const SizedBox(height: 25),
+                  _sectionHeader("SİSTEM VERİLERİ (HUD)"),
+                  const SizedBox(height: 15),
+                  _hudMenuBtn(context, "İTEM TABANI", "Speranza nesne arşivi", Icons.category_outlined, Colors.purpleAccent, ResourceScreen(userName: widget.userName)),
+                  _hudMenuBtn(context, "ATÖLYE MODÜLLERİ", "Üretim ve geliştirme", Icons.handyman_outlined, Colors.orangeAccent, BenchScreen(userName: widget.userName), progress: _benchProgressPercent),
+                  _hudMenuBtn(context, "RAIDER PROJELERİ", "Sefer ve görev takibi", Icons.map_outlined, Colors.greenAccent, MissionScreen(userName: widget.userName), progress: _missionProgressPercent),
+                  _hudMenuBtn(context, "HIZLI ÜRETİM", "Blueprint ve modüller", Icons.inventory_2_outlined, Colors.blueAccent, BlueprintScreen(userName: widget.userName)),
                   
-                  const SizedBox(height: 30),
-                  _sectionHeader("OPERASYON HAZIRLIĞI"),
-                  const SizedBox(height: 20),
-
+                  const SizedBox(height: 25),
+                  _sectionHeader("TAKTIK HAZIRLIK"),
+                  const SizedBox(height: 15),
                   Row(
                     children: [
                       Expanded(child: _tacticalPrepBtn(context, "ATÖLYE", Icons.build_circle_outlined, Colors.orangeAccent, true)),
@@ -118,8 +127,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const SizedBox(height: 40),
                   Opacity(
                     opacity: 0.1,
-                    child: Image.asset("assets/images/logo.webp", width: 150),
+                    child: Image.asset("assets/images/logo.webp", width: 100),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -129,23 +139,81 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Widget _buildProgressGrid() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.02),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.05)),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Column(
+            children: [
+              _buildProgressMini("BENCH SYNCHRONIZATION", _benchProgressPercent, Colors.purpleAccent),
+              const SizedBox(height: 20),
+              _buildProgressMini("MISSION DEPLOYMENT", _missionProgressPercent, Colors.orangeAccent),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgressMini(String title, double percent, Color color) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: GoogleFonts.inter(fontSize: 9, fontWeight: FontWeight.bold, color: color.withOpacity(0.6), letterSpacing: 1)),
+            Text("%${percent.toInt()}", style: GoogleFonts.inter(fontSize: 14, color: Colors.white24)),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Stack(
+          children: [
+            Container(height: 4, decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(2))),
+            AnimatedContainer(
+              duration: const Duration(seconds: 1),
+              height: 4,
+              width: (MediaQuery.of(context).size.width - 100) * (percent / 100),
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(2),
+                boxShadow: [BoxShadow(color: color.withOpacity(0.4), blurRadius: 8, spreadRadius: 1)],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget _speranzaBroadcastTicker() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 8),
-      color: Colors.blueAccent.withOpacity(0.1),
-      child: const SingleChildScrollView(
+      decoration: BoxDecoration(
+        color: Colors.purpleAccent.withOpacity(0.05),
+        border: Border.symmetric(horizontal: BorderSide(color: Colors.purpleAccent.withOpacity(0.1))),
+      ),
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            SizedBox(width: 20),
-            Icon(Icons.rss_feed, color: Colors.blueAccent, size: 14),
-            SizedBox(width: 10),
-            Text("SPERANZA BROADCAST:", style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1)),
-            SizedBox(width: 10),
-            Text("BÖLGEDE ARC YOĞUNLUĞU NORMAL... YENİ BLUEPRINTLER TANIMLANDI... SEFERLERE HAZIR OLUN...", 
-              style: TextStyle(color: Colors.white70, fontSize: 10, letterSpacing: 1)),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
+            const Icon(Icons.sensors, color: Colors.purpleAccent, size: 14),
+            const SizedBox(width: 10),
+            Text("SPERANZA BROADCAST:", style: GoogleFonts.inter(color: Colors.purpleAccent, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1)),
+            const SizedBox(width: 10),
+            Text("BÖLGEDE ARC YOĞUNLUĞU NORMAL... YENİ NESNELER TANIMLANDI... OPERASYON MERKEZİ AKTİF...", 
+              style: GoogleFonts.inter(color: Colors.white38, fontSize: 10, letterSpacing: 1)),
+            const SizedBox(width: 20),
           ],
         ),
       ),
@@ -155,58 +223,66 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _sectionHeader(String title) {
     return Row(
       children: [
-        Container(width: 4, height: 15, color: Colors.orangeAccent),
-        const SizedBox(width: 10),
-        Text(title, style: const TextStyle(color: Colors.white38, fontWeight: FontWeight.bold, letterSpacing: 2, fontSize: 11)),
-        const Expanded(child: Divider(indent: 10, color: Colors.white10)),
+        Container(width: 4, height: 16, decoration: BoxDecoration(color: Colors.purpleAccent, borderRadius: BorderRadius.circular(2))),
+        const SizedBox(width: 12),
+        Text(title, style: GoogleFonts.inter(color: Colors.white24, fontWeight: FontWeight.bold, letterSpacing: 3, fontSize: 11)),
+        const Expanded(child: Divider(indent: 15, color: Colors.white10)),
       ],
     );
   }
 
   Widget _hudMenuBtn(BuildContext context, String title, String subtitle, IconData icon, Color color, Widget target, {double? progress}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 16),
       child: InkWell(
         onTap: () async {
           await Navigator.push(context, MaterialPageRoute(builder: (context) => target));
           _calculateOverallProgress();
         },
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: color.withOpacity(0.03),
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: color.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: color.withOpacity(0.08)),
           ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-                child: Icon(icon, color: color, size: 28),
-              ),
-              const SizedBox(width: 15),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14, letterSpacing: 1)),
-                    Text(subtitle, style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 10)),
-                  ],
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: color.withOpacity(0.1)),
+                  ),
+                  child: Icon(icon, color: color, size: 24),
                 ),
-              ),
-              if (progress != null)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text("%${progress.toStringAsFixed(0)}", style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16)),
-                    const Text("TAMAMLANDI", style: TextStyle(color: Colors.white24, fontSize: 7, fontWeight: FontWeight.bold)),
-                  ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1)),
+                      const SizedBox(height: 4),
+                      Text(subtitle, style: GoogleFonts.inter(color: Colors.white24, fontSize: 10, fontWeight: FontWeight.w500)),
+                    ],
+                  ),
                 ),
-              const SizedBox(width: 10),
-              Icon(Icons.chevron_right, color: color.withOpacity(0.3), size: 20),
-            ],
+                if (progress != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text("%${progress.toStringAsFixed(0)}", style: GoogleFonts.inter(color: color, fontWeight: FontWeight.bold, fontSize: 16)),
+                      Text("SYNC", style: GoogleFonts.inter(color: Colors.white10, fontSize: 7, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                const SizedBox(width: 12),
+                Icon(Icons.arrow_forward_ios, color: Colors.white10, size: 12),
+              ],
+            ),
           ),
         ),
       ),
@@ -216,21 +292,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _tacticalPrepBtn(BuildContext context, String title, IconData icon, Color color, bool isBench) {
     return InkWell(
       onTap: () => _calculateNeeds(context, isBench: isBench),
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 24),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.02),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.white.withOpacity(0.05)),
         ),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: 30),
-            const SizedBox(height: 10),
-            Text(title, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12, letterSpacing: 1)),
-            const Text("EKSİKLERİ TARA", style: TextStyle(color: Colors.white24, fontSize: 8, fontWeight: FontWeight.bold)),
-          ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Column(
+              children: [
+                Icon(icon, color: color, size: 28),
+                const SizedBox(height: 12),
+                Text(title, style: GoogleFonts.inter(color: color.withOpacity(0.8), fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1)),
+                const SizedBox(height: 4),
+                Text("SCAN MODULES", style: GoogleFonts.inter(color: Colors.white12, fontSize: 7, fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -311,8 +394,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (items.isNotEmpty) {
       lines.add("* TOPLANACAK EŞYALAR:");
       for (var e in items.entries) {
-        final item = ItemLibrary.resourceItems.firstWhere((i) => i.id == e.key, orElse: () => GameItem(id: e.key, nameTr: e.key, fileName: ""));
-        lines.add("  - ${_capitalize(item.nameTr)}: ${e.value} adet");
+        final item = ItemRepository.resourceItems.firstWhere((i) => i.id == e.key, orElse: () => GameItem(id: e.key, nameTr: ""));
+        lines.add("  - ${_capitalize(item.displayName)}: ${e.value} adet");
       }
       lines.add("");
     }
@@ -362,13 +445,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         const Text("GEREKLİ MALZEMELER", style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1)),
                         const SizedBox(height: 10),
                         ...items.entries.map((e) {
-                          final item = ItemLibrary.resourceItems.firstWhere((i) => i.id == e.key, orElse: () => GameItem(id: e.key, nameTr: e.key, fileName: ""));
+                          final item = ItemRepository.resourceItems.firstWhere((i) => i.id == e.key, orElse: () => GameItem(id: e.key, nameTr: ""));
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8),
                             child: Row(
                               children: [
                                 const Icon(Icons.arrow_right, color: Colors.white24, size: 16),
-                                Expanded(child: Text("${_capitalize(item.nameTr)}", style: const TextStyle(color: Colors.white70, fontSize: 13))),
+                                Expanded(child: Text("${_capitalize(item.displayName)}", style: const TextStyle(color: Colors.white70, fontSize: 13))),
                                 Text("${e.value}x", style: const TextStyle(color: Colors.orangeAccent, fontWeight: FontWeight.bold, fontSize: 13)),
                               ],
                             ),

@@ -1,0 +1,363 @@
+Advanced ARC Powercell
+Advanced Electrical Components
+Advanced Mechanical Components
+Agave
+Air Freshener
+Alarm Clock
+Antiseptic
+Apricot
+ARC Alloy
+ARC Circuitry
+ARC Coolant
+ARC Flex Rubber
+ARC Motion Core
+ARC Performance Steel
+ARC Powercell
+ARC Synthetic Resin
+ARC Thermo Lining
+Assorted Seeds
+Bastion Cell
+Battery
+Bicycle Pump
+Bloated Tuna Can
+Blue Gate Communication Tower Key
+Blue Gate Confiscation Room Key
+Blue Gate Cellar Key
+Blue Gate Village Key
+Bombardier Cell
+Breathtaking Snow Globe
+Broken Flashlight
+Broken Guidance System
+Broken Handheld Radio
+Broken Taser
+Buried City Hospital Key
+Buried City JKV Employee Access Card
+Buried City Residential Mastery Key
+Buried City Town Hall Key
+Burned ARC Circuitry
+Camera Lens
+Candle Holder
+Canister
+Cat Bed
+Chemicals
+Coffee Pot
+Complex Gun Parts
+Coolant
+Cooling Coil
+Cooling Fan
+Cracked Bioscanner
+Crude Explosives
+Crumpled Plastic Bottle
+Dam Control Tower Key
+Dam Staff Room Key
+Dam Surveillance Key
+Dam Testing Annex Key
+Dam Utility Key
+Damaged ARC Motion Core
+Damaged ARC Powercell
+Damaged Fireball Burner
+Damaged Heat Sink
+Damaged Hornet Driver
+Damaged Rocketeer Driver
+Damaged Snitch Scanner
+Damaged Tick Pod
+Damaged Wasp Driver
+Dart Board
+Deflated Football
+Degraded ARC Rubber
+Diving Goggles
+Dog Collar
+Dried-Out ARC Resin
+Duct Tape
+Durable Cloth
+Electrical Components
+Empty Wine Bottle
+Exodus Modules
+Expired Pasta
+Expired Respirator
+Explosive Compound
+Fabric
+Faded Photograph
+Fertilizer
+Film Reel
+Fine Wristwatch
+Fireball Burner
+Frequency Modulation Box
+Fried Motherboard
+Frying Pan
+Garlic Press
+Great Mullein
+Headphones
+Heavy Gun Parts
+Hornet Driver
+Household Cleaner
+Humidifier
+Ice Cream Scooper
+Impure ARC Coolant
+Industrial Battery
+Industrial Charger
+Industrial Magnet
+Ion Sputter
+Laboratory Reagents
+Lance's Mixtape (5th Edition)
+Lemon
+Leaper Pulse Unit
+Light Bulb
+Light Gun Parts
+Magnet
+Magnetic Accelerator
+Magnetron
+Matriarch Reactor
+Mechanical Components
+Medium Gun Parts
+Metal Brackets
+Metal Parts
+Microscope
+Mini Centrifuge
+Mod Components
+Moss
+Motor
+Mushroom
+Music Album
+Music Box
+Number Plate
+Oil
+Olives
+Painted Box
+Patrol Car Key
+Plastic Parts
+Playing Cards
+Polluted Air Filter
+Pop Trigger
+Portable TV
+Poster of Natural Wonders
+Pottery
+Power Bank
+Power Cable
+Power Rod
+Prickly Pear
+Processor
+Projector
+Queen Reactor
+Radio
+Radio Relay
+Raider Hatch Key
+Red Coral Jewelry
+Remote Control
+Resin
+Ripped Safety Vest
+Rocket Thruster
+Rocketeer Driver
+Roots
+Rope
+Rosary
+Rotary Encoder
+Rubber Duck
+Rubber Pad
+Rubber Parts
+Ruined Accordion
+Ruined Augment
+Ruined Baton
+Ruined Handcuffs
+Ruined Parachute
+Ruined Tactical Vest
+Ruined Riot Shield
+Rusted Bolts
+Rusted Gear
+Rusted Shut Medical Kit
+Rusted Tools
+Rusty ARC Steel
+Sample Cleaner
+Sensors
+Sentinel Firing Core
+Signal Amplifier
+Silver Teaspoon Set
+Simple Gun Parts
+Snitch Scanner
+Spaceport Container Storage Key
+Spaceport Control Tower Key
+Spaceport Trench Tower Key
+Spaceport Warehouse Key
+Speaker Component
+Spectrometer
+Spectrum Analyzer
+Spring Cushion
+Spotter Relay
+Statuette
+Steel Spring
+Stella Montis Archives Key
+Stella Montis Assembly Admin Key
+Stella Montis Medical Storage Key
+Stella Montis Security Checkpoint Key
+Surveyor Vault
+Synthesized Fuel
+Syringe
+Tattered ARC Lining
+Tattered Clothes
+Telemetry Transceiver
+Thermostat
+Tick Pod
+Toaster
+Torn Book
+Torn Blanket
+Turbo Pump
+Unusable Weapon
+Vase
+Very Comfortable Pillow
+Volcanic Rock
+Voltage Converter
+Wasp Driver
+Water Filter
+Water Pump
+Wires
+Tempest
+Rattler
+Kettle
+Bettina
+Arpeggio
+Ferro
+Renegade
+Aphelion
+Stitcher
+Bobcat
+Il Toro
+Vulcano
+Hairpin
+Burletta
+Anvil
+Venator
+Torrente
+Osprey
+Jupiter
+Hullcracker
+Equalizer
+Free Loadout Augment
+Looting Mk. 1
+Combat Mk. 1
+Tactical Mk. 1
+Looting Mk. 2
+Combat Mk. 2
+Tactical Mk. 2
+Looting Mk. 3 (Cautious)
+Looting Mk. 3 (Survivor)
+Combat Mk. 3 (Aggressive)
+Combat Mk. 3 (Flanking)
+Tactical Mk. 3 (Defensive)
+Tactical Mk. 3 (Healing)
+Light Shield
+Medium Shield
+Heavy Shield
+Bandage
+Defibrillator
+Fruit Mix
+Herbal Bandage
+Sterilized Bandage
+Vita Shot
+Vita Spray
+Integrated Shield Recharger
+Shield Recharger
+Surge Shield Recharger
+Adrenaline Shot
+Agave Juice
+Barricade Kit
+Door Blocker
+Remote Raider Flare
+Zipline
+Binoculars
+Flame Spray
+Integrated Binoculars
+Noisemaker
+Photoelectric Cloak
+Recorder
+Snap Hook
+Light Impact Grenade
+Heavy Fuze Grenade
+Blaze Grenade
+Gas Grenade
+Showstopper
+Snap Blast Grenade
+Seeker Grenade
+Shrapnel Grenade
+Trigger 'Nade
+Trailblazer
+Wolfpack
+Lure Grenade
+Li'l Smoke Grenade
+Smoke Grenade
+Tagging Grenade
+Light Stick
+Blaze Grenade Trap
+Gas Grenade Trap
+Lure Grenade Trap
+Smoke Grenade Trap
+Explosive Mine
+Gas Mine
+Jolt Mine
+Pulse Mine
+Deadline
+Compensator I
+Muzzle Brake I
+Shotgun Choke I
+Angled Grip I
+Vertical Grip I
+Extended Light Mag I
+Extended Medium Mag I
+Extended Shotgun Mag I
+Stable Stock I
+Compensator II
+Muzzle Brake II
+Shotgun Choke II
+Silencer I
+Angled Grip II
+Vertical Grip II
+Extended Light Mag II
+Extended Medium Mag II
+Extended Shotgun Mag II
+Stable Stock II
+Compensator III
+Muzzle Brake III
+Shotgun Choke III
+Silencer II
+Silencer III
+Shotgun Silencer
+Extended Barrel
+Angled Grip III
+Vertical Grip III
+Horizontal Grip
+Extended Light Mag III
+Extended Medium Mag III
+Extended Shotgun Mag III
+Stable Stock III
+Lightweight Stock
+Padded Stock
+Kinetic Converter
+Anvil Splitter
+Light Ammo
+Medium Ammo
+Heavy Ammo
+Shotgun Ammo
+Launcher Ammo
+Energy Clip
+Firecracker
+Fireworks Box
+Candleberries
+Snowball
+Acoustic Guitar
+Ancient Fort Security Code
+Pilgrim's Peak Security Code
+Raider's Refuge Security Code
+Reinforced Reception Security Code
+Fossilized Lightning
+Burnt-Out Candles
+Tropical Duck
+Gentle Duck
+Flashy Duck
+Familiar Duck
+Doodly Duck
+Alien Duck
+Shredder Gyro
+Shaker
+Damaged Leaper Pulse Unit
+Flow Controller
+Integrated Defibrillator
+Looting Mk. 3 (Safekeeper)

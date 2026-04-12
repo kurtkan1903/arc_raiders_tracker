@@ -159,7 +159,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
-                    "Versiyon 1.0.2",
+                    "Versiyon 1.0.5",
                     style: TextStyle(color: isDark ? Colors.white24 : Colors.black26, fontSize: 12),
                   ),
                 ),
